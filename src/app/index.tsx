@@ -1,10 +1,14 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, SafeAreaView } from "react-native";
+import { Link } from "expo-router";
 
 export default function Index() {
   return (
-    <View style={styles.container}>
-      <Text>Edit src/app/index.tsx to edit this screen.</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Text>This is the Index file inside the app directory.</Text>
+      <Link href="/addNote" style={styles.button}>
+        <Text style={styles.buttonText}>Create your first note</Text>
+      </Link>
+    </SafeAreaView>
   );
 }
 
@@ -13,5 +17,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  button: {
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: "#454955",
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
   },
 });
