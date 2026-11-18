@@ -10,6 +10,7 @@ export default function RootLayout() {
       <Stack.Screen name="addNote" options={{ title: "Add Note" }} />
       <Stack.Screen name="editNote" options={{ title: "Edit Note" }} />
       <Stack.Screen name="deleteNote" options={{ title: "Delete Note" }} />
+      <Stack.Screen name="not-found" options={{ title: "Not Found" }} />
     </Stack>
   );
 }

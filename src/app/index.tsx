@@ -1,5 +1,6 @@
 import { Text, View, StyleSheet, SafeAreaView } from "react-native";
 import { Link } from "expo-router";
+import AddButton  from "../components/addButton";
 
 export default function Index() {
   return (
@@ -8,6 +9,7 @@ export default function Index() {
       <Link href="/addNote" style={styles.button}>
         <Text style={styles.buttonText}>Create your first note</Text>
       </Link>
+      <AddButton />
     </SafeAreaView>
   );
 }
@@ -21,7 +23,7 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: "#454955",
+    backgroundColor: "#5bc0eb",
     borderRadius: 5,
   },
   buttonText: {
