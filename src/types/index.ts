@@ -4,6 +4,7 @@ export type User = {
   id: string;
   username: string;
   email: string;
+  salt: string;
   passwordHash: string;
 };
 
