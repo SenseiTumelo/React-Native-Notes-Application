@@ -34,6 +34,53 @@ export async function registerUser(
   return user;
 }
 
+export type ProfileUpdate = {
+  username: string;
+  email: string;
+  currentPassword: string;
+  newPassword?: string;
+};
+
+export async function updateUser(
+  userId: string,
+  update: ProfileUpdate
+): Promise<User> {
+  const users = await loadData<User[]>(KEYS.users, []);
+  const existing = users.find((u) => u.id === userId);
+  if (!existing) throw new Error("User not found");
+
+  const currentHash = await hashPassword(update.currentPassword, existing.salt);
+  if (currentHash !== existing.passwordHash) {
+    throw new Error("Current password is incorrect");
+  }
+
+  const cleanEmail = update.email.trim().toLowerCase();
+  if (users.some((u) => u.id !== userId && u.email === cleanEmail)) {
+    throw new Error("Another account already uses this email");
+  }
+
+  let salt = existing.salt;
+  let passwordHash = existing.passwordHash;
+  if (update.newPassword) {
+    salt = Crypto.randomUUID();
+    passwordHash = await hashPassword(update.newPassword, salt);
+  }
+
+  const updated: User = {
+    ...existing,
+    username: update.username.trim(),
+    email: cleanEmail,
+    salt,
+    passwordHash,
+  };
+
+  await saveData(
+    KEYS.users,
+    users.map((u) => (u.id === userId ? updated : u))
+  );
+  return updated;
+}
+
 export async function loginUser(email: string, password: string): Promise<User> {
   const users = await loadData<User[]>(KEYS.users, []);
   const user = users.find((u) => u.email === email.trim().toLowerCase());
