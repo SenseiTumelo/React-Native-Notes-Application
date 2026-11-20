@@ -11,11 +11,12 @@ import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AuthInput from "../components/AuthInput";
 import { useAuth } from "../context/AuthContext";
+import { useToast } from "../context/ToastContext";
 
 export default function Register() {
   const router = useRouter();
   const { register } = useAuth();
-
+  const { showToast } = useToast();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,6 +47,7 @@ export default function Register() {
     try {
       setSubmitting(true);
       await register(username, email, password);
+      showToast("Account created! Please log in.", "success");
       router.replace("/login");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong");

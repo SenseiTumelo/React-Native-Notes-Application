@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useToast } from "../context/ToastContext";
 import { useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -19,6 +20,7 @@ export default function EditNote() {
   const goBack = useGoBack();
   const { id } = useLocalSearchParams<{ id?: string }>();
   const { notes, editNote, removeNote } = useNotes();
+    const { showToast } = useToast();
 
   const note = notes.find((n) => n.id === id);
 
@@ -44,6 +46,7 @@ export default function EditNote() {
     if (!ok) return;
 
     await removeNote(note.id);
+        showToast("Note deleted", "info");
     goBack();
   };
 
@@ -95,6 +98,7 @@ export default function EditNote() {
               submitLabel="Save changes"
               onSubmit={async (input) => {
                 await editNote(note.id, input);
+                 showToast("Note updated", "success");
                 goBack();
               }}
             />

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useToast } from "../context/ToastContext";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,6 +16,7 @@ import NoteForm from "../components/NoteForm";
 
 export default function AddNote() {
   const router = useRouter();
+    const { showToast } = useToast();
   const { addNote } = useNotes();
   const { category } = useLocalSearchParams<{ category?: string }>();
 
@@ -49,10 +51,11 @@ export default function AddNote() {
           <NoteForm
             submitLabel="Save note"
             defaultCategory={defaultCategory}
-onSubmit={async (input) => {
-  await addNote(input);
-  goBack();
-}}
+            onSubmit={async (input) => {
+              await addNote(input);
+              showToast("Note added", "success");
+              goBack();
+            }}
           />
         </ScrollView>
       </KeyboardAvoidingView>

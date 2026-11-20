@@ -11,6 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "../../context/AuthContext";
 import AuthInput from "../../components/AuthInput";
+import { useToast } from "../../context/ToastContext";
 
 export default function Profile() {
   const { user, logout, updateProfile } = useAuth();
@@ -23,10 +24,11 @@ export default function Profile() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [saving, setSaving] = useState(false);
+    const { showToast } = useToast();
 
   const handleSave = async () => {
     setError("");
-    setSuccess("");
+          showToast("Profile updated", "success");
 
     if (!email.trim()) {
       setError("Email cannot be empty");
@@ -146,7 +148,10 @@ export default function Profile() {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={logout}
+                        onPress={async () => {
+              await logout();
+              showToast("You have been logged out", "info");
+            }}
             className="mt-4 items-center rounded-full border border-red-200 py-4"
           >
             <Text className="text-base font-bold text-red-500">Log out</Text>
