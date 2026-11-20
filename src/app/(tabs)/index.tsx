@@ -28,7 +28,7 @@ export default function Home() {
           </Text>
         </View>
         <Text className="ml-3 text-base font-semibold text-navy">
-          Hi, {user?.username} 👋
+          Hi, {user?.username}
         </Text>
       </View>
 

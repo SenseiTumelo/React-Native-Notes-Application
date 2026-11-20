@@ -28,6 +28,7 @@ function RootNavigator() {
 
       <Stack.Protected guard={isLoggedIn}>
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="addNote" />
       </Stack.Protected>
     </Stack>
   );
