@@ -1,22 +1,42 @@
-import { Stack } from "expo-router";
-import {StatusBar} from 'expo-status-bar';
 import "../../global.css";
+import { useEffect } from "react";
+import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import * as SplashScreen from "expo-splash-screen";
+import { AuthProvider, useAuth } from "../context/AuthContext";
+
+SplashScreen.preventAutoHideAsync();
+
+function RootNavigator() {
+  const { user, loading } = useAuth();
+
+  useEffect(() => {
+    if (!loading) SplashScreen.hideAsync();
+  }, [loading]);
+
+  if (loading) return null;
+
+  const isLoggedIn = !!user;
+
+  return (
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Protected guard={!isLoggedIn}>
+        <Stack.Screen name="login" />
+        <Stack.Screen name="register" />
+      </Stack.Protected>
+
+      <Stack.Protected guard={isLoggedIn}>
+        <Stack.Screen name="(tabs)" />
+      </Stack.Protected>
+    </Stack>
+  );
+}
 
 export default function RootLayout() {
   return (
-  <>
-    <StatusBar style="auto" />
-    <Stack>
-      <Stack.Screen name="index" options={{ title: "Home" }} />
-      <Stack.Screen name="login" options={{ title: "Login" }} />
-      <Stack.Screen name="register" options={{ title: "Register" }} />
-      <Stack.Screen name="addNote" options={{ title: "Add Note" }} />
-      <Stack.Screen name="deleteNote" options={{ title: "Delete Note" }} />
-      <Stack.Screen name="not-found" options={{ title: "Not Found" }} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
-  
-  </>
-
+    <AuthProvider>
+      <StatusBar style="dark" />
+      <RootNavigator />
+    </AuthProvider>
   );
 }
