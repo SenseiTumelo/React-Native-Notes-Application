@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Category } from "../types";
 import { useNotes } from "../context/NotesContext";
 import AddButton from "./addButton";
+import { useRouter } from "expo-router";
 import {
   SortOrder,
   filterByCategory,
@@ -19,6 +20,7 @@ type Props = {
 
 export default function NotesList({ category, header }: Props) {
   const { notes, loading } = useNotes();
+  const router = useRouter();
   const [query, setQuery] = useState("");
   const [order, setOrder] = useState<SortOrder>("newest");
 
@@ -80,7 +82,14 @@ export default function NotesList({ category, header }: Props) {
       <FlatList
         data={visible}
         keyExtractor={(note) => note.id}
-        renderItem={({ item }) => <NoteCard note={item} />}
+         renderItem={({ item }) => (
+          <NoteCard
+            note={item}
+            onPress={() =>
+              router.push({ pathname: "/editNote", params: { id: item.id } })
+            }
+          />
+        )}
         ListHeaderComponent={listHeader}
         ListEmptyComponent={
           <Text className="mt-10 text-center text-gray-500">
