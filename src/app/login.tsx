@@ -48,7 +48,7 @@ export default function Login() {
           contentContainerClassName="px-6 pb-10 pt-8"
           keyboardShouldPersistTaps="handled"
         >
-          <Text className="text-3xl font-bold text-navy">Welcome back 👋</Text>
+          <Text className="text-3xl font-bold text-navy">Welcome back</Text>
           <Text className="mb-8 mt-2 text-base text-gray-500">
             Log in to see your notes.
           </Text>
