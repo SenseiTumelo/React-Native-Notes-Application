@@ -3,6 +3,7 @@ import { FlatList, Text, TextInput, TouchableOpacity, View } from "react-native"
 import { Ionicons } from "@expo/vector-icons";
 import { Category } from "../types";
 import { useNotes } from "../context/NotesContext";
+import AddButton from "./addButton";
 import {
   SortOrder,
   filterByCategory,
@@ -74,24 +75,27 @@ export default function NotesList({ category, header }: Props) {
     </View>
   );
 
-  return (
-    <FlatList
-      data={visible}
-      keyExtractor={(note) => note.id}
-      renderItem={({ item }) => <NoteCard note={item} />}
-      ListHeaderComponent={listHeader}
-      ListEmptyComponent={
-        <Text className="mt-10 text-center text-gray-500">
-          {loading
-            ? "Loading..."
-            : query
-            ? "No notes match your search."
-            : "No notes yet. Tap + to add one."}
-        </Text>
-      }
-      contentContainerClassName="px-6 pt-4 pb-40"
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}
-    />
+    return (
+    <View className="flex-1">
+      <FlatList
+        data={visible}
+        keyExtractor={(note) => note.id}
+        renderItem={({ item }) => <NoteCard note={item} />}
+        ListHeaderComponent={listHeader}
+        ListEmptyComponent={
+          <Text className="mt-10 text-center text-gray-500">
+            {loading
+              ? "Loading..."
+              : query
+              ? "No notes match your search."
+              : "No notes yet. Tap + to add one."}
+          </Text>
+        }
+        contentContainerClassName="px-6 pt-4 pb-40"
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      />
+      <AddButton category={category} />
+    </View>
   );
 }

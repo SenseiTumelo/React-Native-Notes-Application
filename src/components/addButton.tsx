@@ -1,29 +1,25 @@
-import {View, StyleSheet, SafeAreaView, Pressable, Text} from 'react-native';
-import { Link, Stack } from 'expo-router';
+import { TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { Category } from "../types";
 
-export default function AddButton() {
+type Props = { category?: Category };
+
+export default function AddButton({ category }: Props) {
+  const router = useRouter();
+
   return (
-    < SafeAreaView style={styles.container}>
-      <Stack.Screen options={{ title: 'Add Note' }} />
-        <Link href="/addNote" style={styles.button}>
-            <Text style={styles.buttonText}>Add Note</Text>
-        </Link>
-</SafeAreaView>
-  )
-};
-
-const styles = StyleSheet.create({
-    container: {   
-        marginTop: 20,
-        
-    },
-    button: {
-        padding: 10,
-        backgroundColor: "#5bc0eb",
-        borderRadius: 5,
-    },
-    buttonText: {
-        color: "#fff",
-        fontSize: 16,
-    },
-});
+    <TouchableOpacity
+      onPress={() =>
+        router.push({
+          pathname: "/addNote",
+          params: category ? { category } : {},
+        })
+      }
+      activeOpacity={0.85}
+      className="absolute bottom-28 right-6 h-14 w-14 items-center justify-center rounded-full bg-primary shadow-lg"
+    >
+      <Ionicons name="add" size={30} color="#FFFFFF" />
+    </TouchableOpacity>
+  );
+}
