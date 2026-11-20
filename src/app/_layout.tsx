@@ -5,6 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import { AuthProvider, useAuth } from "../context/AuthContext";
 import { NotesProvider } from "../context/NotesContext";
+import { ToastProvider } from "../context/ToastContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -32,6 +33,7 @@ function RootNavigator() {
         <Stack.Screen name="editNote" />
       </Stack.Protected>
     </Stack>
+    
   );
 }
 
@@ -39,8 +41,10 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <NotesProvider>
-        <StatusBar style="dark" />
-        <RootNavigator />
+        <ToastProvider>
+          <StatusBar style="dark" />
+          <RootNavigator />
+        </ToastProvider>
       </NotesProvider>
     </AuthProvider>
   );
