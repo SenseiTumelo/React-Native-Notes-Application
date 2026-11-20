@@ -15,7 +15,7 @@ import AuthInput from "../../components/AuthInput";
 export default function Profile() {
   const { user, logout, updateProfile } = useAuth();
 
-  const [username, setUsername] = useState(user?.username ?? "");
+
   const [email, setEmail] = useState(user?.email ?? "");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -28,8 +28,8 @@ export default function Profile() {
     setError("");
     setSuccess("");
 
-    if (!username.trim() || !email.trim()) {
-      setError("Username and email cannot be empty");
+    if (!email.trim()) {
+      setError("Email cannot be empty");
       return;
     }
     if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
@@ -52,7 +52,6 @@ export default function Profile() {
     try {
       setSaving(true);
       await updateProfile({
-        username,
         email,
         currentPassword,
         newPassword: newPassword || undefined,
@@ -92,7 +91,12 @@ export default function Profile() {
           </View>
 
           <Text className="mb-4 text-lg font-bold text-navy">Account details</Text>
-          <AuthInput label="Username" value={username} onChangeText={setUsername} />
+          <AuthInput
+            label="Username (cannot be changed)"
+            value={user?.username ?? ""}
+            editable={false}
+            style={{ opacity: 0.6 }}
+          />
           <AuthInput
             label="Email"
             keyboardType="email-address"

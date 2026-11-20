@@ -35,7 +35,6 @@ export async function registerUser(
 }
 
 export type ProfileUpdate = {
-  username: string;
   email: string;
   currentPassword: string;
   newPassword?: string;
@@ -68,7 +67,7 @@ export async function updateUser(
 
   const updated: User = {
     ...existing,
-    username: update.username.trim(),
+
     email: cleanEmail,
     salt,
     passwordHash,
