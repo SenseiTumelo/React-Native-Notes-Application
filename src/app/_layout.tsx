@@ -4,6 +4,7 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as SplashScreen from "expo-splash-screen";
 import { AuthProvider, useAuth } from "../context/AuthContext";
+import { NotesProvider } from "../context/NotesContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -35,8 +36,10 @@ function RootNavigator() {
 export default function RootLayout() {
   return (
     <AuthProvider>
-      <StatusBar style="dark" />
-      <RootNavigator />
+      <NotesProvider>
+        <StatusBar style="dark" />
+        <RootNavigator />
+      </NotesProvider>
     </AuthProvider>
   );
 }
