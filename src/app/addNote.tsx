@@ -19,7 +19,13 @@ export default function AddNote() {
   const { category } = useLocalSearchParams<{ category?: string }>();
 
   const defaultCategory = CATEGORIES.find((c) => c === category);
-
+    const goBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace("/");
+    }
+  };
   return (
     <SafeAreaView className="flex-1 bg-white">
       <KeyboardAvoidingView
@@ -32,7 +38,7 @@ export default function AddNote() {
         >
           <View className="mb-6 flex-row items-center">
             <TouchableOpacity
-              onPress={() => router.back()}
+              onPress={goBack}
               className="h-12 w-12 items-center justify-center rounded-full border border-gray-200"
             >
               <Ionicons name="chevron-back" size={22} color="#1E0B4B" />
@@ -43,10 +49,10 @@ export default function AddNote() {
           <NoteForm
             submitLabel="Save note"
             defaultCategory={defaultCategory}
-            onSubmit={async (input) => {
-              await addNote(input);
-              router.back();
-            }}
+onSubmit={async (input) => {
+  await addNote(input);
+  goBack();
+}}
           />
         </ScrollView>
       </KeyboardAvoidingView>

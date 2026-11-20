@@ -10,12 +10,13 @@ export default function AddButton({ category }: Props) {
 
   return (
     <TouchableOpacity
-      onPress={() =>
-        router.push({
-          pathname: "/addNote",
-          params: category ? { category } : {},
-        })
-      }
+onPress={() => {
+  console.log("add pressed", category);
+  router.push({
+    pathname: "/addNote",
+    params: category ? { category } : {},
+  });
+}}
       activeOpacity={0.85}
       className="absolute bottom-28 right-6 h-14 w-14 items-center justify-center rounded-full bg-primary shadow-lg"
     >
